@@ -1,15 +1,6 @@
 ---
 layout: single
 title:  "GitHub pages jekyll on windows"
-show_date: true
-author_profile: true
-read_time: true
-comments: true
-share: true
-categories:
-   - markdown
-tag:
-   - blog
 ---
 
 安装方法来自网络，适用于windows

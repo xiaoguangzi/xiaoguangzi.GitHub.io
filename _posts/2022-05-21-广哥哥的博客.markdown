@@ -1,15 +1,6 @@
 ---
 layout: single
 title:  "广哥哥的个人博客"
-show_date: true
-author_profile: true
-read_time: true
-comments: true
-share: true
-categories:
-   - markdown
-tag:
-   - blog
 ---
 
 哈喽大家好，这里是一个运维菜狗的博客空间。

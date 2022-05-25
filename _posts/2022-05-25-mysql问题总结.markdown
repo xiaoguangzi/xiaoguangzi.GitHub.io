@@ -1,0 +1,95 @@
+---
+layout: single
+title:  "mysql问题总计"
+---
+
+总结一下遇见过的mysql问题，同时该文章会继续更新，因为很多问题放在一起，所以可能会比较乱，需要的话请crul+F进行搜索。
+
+**Too many connections**
+
+该问题是因为mysql连接数过多引起的，如果mysql没有更改过连接数的配置，256默认连接数很快就会占满。虽然官方说会有一个预留给
+root用户，但是实际上不会。(有可能是因为程序都使用mysql root账户进行连接导致)
+
+解决办法为先重启mysql，然后执行下面的操作。
+
+```SQL
+show variables like '%max_connections%';
+set max_connections=1000;
+```
+
+这种属于是临时解决办法，如果想要持久解决问题的话，修改mysql配置文件，然后重启mysql。
+
+```bash
+vi /etc/my.cnf
+[mysqld]
+max_connections=1000
+systemctl restart mysqld
+```
+
+**ssl连接问题**
+
+mysql升级以后有可能会遇见这个问题，就是在升级完成以后发现无法连接数据库了。
+
+当我们检查完新配置的MySQL参数没有问题以后，我们应该注意下MySQL的版本，这个是官网给出的警告。
+
+```shell
+Warning! Establishing SSL connection without server's identity verification is not recommended. According to MySQL 5.5.45+, 5.6.26+ and 5.7.6+ requirements SSL connection must be established by default if explicit option isn't set. For compliance with existing applications not using SSL the verifyServerCertificate property is set to 'false'. You need either to explicitly disable SSL by setting useSSL=false, or set useSSL=true and provide truststore for server certificate verification.
+```
+
+如果你使用高于这几个版本的MySQL，默认是开启了MySQL ssl连接的。执行下面的操作查看是否开启:
+
+```SQL
+show variables like '%ssl%';
+```
+
+关闭的方法为:
+
+```shell
+[mysqld]
+
+skip_ssl
+systemctl restart mysqld
+```
+
+*我在使用dolphinscheduler，datax时遇到过这个问题*
+
+**mysql内部时间与主机不一致**
+
+```SQL
+show variables like '%time_zone%';
+select now(); ##检查与外部的时间是否一致，如果不一致执行下面的操作
+set time_zone=SYSTEM;
+set global time_zone='+8:00';
+flush privileges;
+```
+
+这个因为没有具体的记录问题，所以没有具体的问题描述，以后更新博客都会把问题写出来然后再放上具体的解决办法。
+
+如果大家更改MySQL时间，可以参照下。
+
+**MySQL only_full_group_by**
+
+*MySQL 5.7.5 及更高版本实现了功能依赖检测。如果 ONLY_FULL_GROUP_BY启用了 SQL 模式（默认情况下），MySQL 拒绝选择列表、HAVING条件或 ORDER BY列表引用非聚合列的查询，这些列既不在GROUP BY子句中命名，也不在功能上依赖于它们。（在 5.7.5 之前，MySQL 不检测功能依赖， ONLY_FULL_GROUP_BY默认不启用。有关 5.7.5 之前的行为的描述，请参阅MySQL 5.6 参考手册*
+
+*如果ONLY_FULL_GROUP_BY禁用，则标准 SQL 使用的 MySQL 扩展 GROUP BY允许选择列表、 HAVING条件或ORDER BY列表引用非聚合列，即使这些列在功能上不依赖于GROUP BY列。这会导致 MySQL 接受前面的查询。在这种情况下，服务器可以从每个组中自由选择任何值，因此除非它们相同，否则选择的值是不确定的，这可能不是您想要的。此外，从每个组中选择值不会受到添加ORDER BY子句的影响。结果集排序发生在选择值之后，并且 ORDER BY不影响服务器选择的每个组中的哪个值。ONLY_FULL_GROUP_BY当您知道由于数据的某些属性，未在 中命名的每个非聚合列中的所有值 GROUP BY对于每个组都相同时， 禁用 主要是有用的。*
+
+作为一个运维狗，看到这篇文章这段话时是崩溃的，完全不明白。我当时也是追着开发们问，才得到了最终的结果要不要禁用only_full_group_by。MySQL中有很多数据库，所以像这种操作尽量还是问问开发们的意见吧，万一这一个数据库可以正常使用了但是其他的服务连接的数据库故障了，岂不是白忙活。
+
+禁用方法:
+
+```SQL
+SET sql_mode=(SELECT REPLACE(@@sql_mode, 'ONLY_FULL_GROUP_BY', ''));
+```
+
+长久解决问题方法:
+
+```shell
+[mysqld]  
+sql_mode = "STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION"
+systemctl restart mysqld
+```
+
+附上官方文档地址:
+
+https://dev.mysql.com/doc/refman/5.7/en/group-by-handling.html#:~:text=If%20ONLY_FULL_GROUP_BY%20is%20disabled%2C%20a,to%20accept%20the%20preceding%20query.
+

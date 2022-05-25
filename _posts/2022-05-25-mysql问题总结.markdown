@@ -12,7 +12,7 @@ root用户，但是实际上不会。(有可能是因为程序都使用mysql roo
 
 解决办法为先重启mysql，然后执行下面的操作。
 
-```SQL
+```sql
 show variables like '%max_connections%';
 set max_connections=1000;
 ```
@@ -38,7 +38,7 @@ Warning! Establishing SSL connection without server's identity verification is n
 
 如果你使用高于这几个版本的MySQL，默认是开启了MySQL ssl连接的。执行下面的操作查看是否开启:
 
-```SQL
+```sql
 show variables like '%ssl%';
 ```
 
@@ -55,7 +55,7 @@ systemctl restart mysqld
 
 **mysql内部时间与主机不一致**
 
-```SQL
+```sql
 show variables like '%time_zone%';
 select now(); ##检查与外部的时间是否一致，如果不一致执行下面的操作
 set time_zone=SYSTEM;
@@ -77,7 +77,7 @@ flush privileges;
 
 禁用方法:
 
-```SQL
+```sql
 SET sql_mode=(SELECT REPLACE(@@sql_mode, 'ONLY_FULL_GROUP_BY', ''));
 ```
 
@@ -92,4 +92,3 @@ systemctl restart mysqld
 附上官方文档地址:
 
 https://dev.mysql.com/doc/refman/5.7/en/group-by-handling.html#:~:text=If%20ONLY_FULL_GROUP_BY%20is%20disabled%2C%20a,to%20accept%20the%20preceding%20query.
-

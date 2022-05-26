@@ -36,14 +36,14 @@ windows并不是jekyll的默认支持平台，但是可以通过ruby的进行安
 
 这里放上jekyll的链接: 
 
-https://jekyllrb.com/docs/installation/windows/
+<https://jekyllrb.com/docs/installation/windows/>
 
 **挑选主题**
 
 jekyll的主题有很多，并且都与GitHub pages  100%兼容，可以根据自己的喜好去选择。因为在安装过程中出现了一些问题，导致了我的博客
 主题提供的服务几乎都不能用，我调试了很长时间也没有成果，于是选择了直接更换主题。
 
-http://jekyllthemes.org/
+<http://jekyllthemes.org/>
 
 在这里你可以找到很多主题并且有非常详细的说明，可以根据自己的爱好选择搭建主题。
 

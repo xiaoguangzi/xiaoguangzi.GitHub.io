@@ -288,6 +288,7 @@ defaults:
       share: true
       related: true
       show_date: true
+      classes: wide
 
 gem "github-pages", group: :jekyll_plugins
 gem "jekyll-include-cache", group: :jekyll_plugins

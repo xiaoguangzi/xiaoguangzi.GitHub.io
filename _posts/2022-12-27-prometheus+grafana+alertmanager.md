@@ -6,7 +6,7 @@ Prometheus受启发于Google的Brogmon监控系统（相似的Kubernetes是从Go
 
 **prometheus 下载安装**
 
-https://prometheus.io/download/
+<https://prometheus.io/download/>
 
 Prometheus一般需要搭配多种组件使用，像alert manager，node_exporter，grafana等等。官方提供了很多种exporter，可以根据自己的需要去下载，有些时候需要我们自定义exporter的时候，可以根据开发语言选择jmx_exporter和blackbox_exporter。
 
@@ -91,11 +91,11 @@ nohup ./prometheus --config.file=prometheus.yml --web.enable-lifecycle &
 
 ```
 
-参考文档： https://www.jianshu.com/p/872bafe8d85e
+参考文档： <https://www.jianshu.com/p/872bafe8d85e>
 
 ## grafana安装配置
 
-https://grafana.com/grafana/download
+<https://grafana.com/grafana/download>
 
 ```shell
 systemctl start grafana-server # centos系列使用systemd作为启动管理
@@ -116,7 +116,7 @@ dashboards选择grafana metrics导入
 
 ## alertmanager安装配置
 
-https://prometheus.io/download/
+<https://prometheus.io/download/>
 
 ```shell
 tar xzf alertmanager-0.25.0.linux-amd64.tar.gz
@@ -180,16 +180,16 @@ receivers:
 
 cat tmaplates/wchat.tmpl
 
-https://zhuanlan.zhihu.com/p/179294441
+<https://zhuanlan.zhihu.com/p/179294441>
 
 ```
 
 参考资料：
 
-https://yunlzheng.gitbook.io/prometheus-book/
+<https://yunlzheng.gitbook.io/prometheus-book/>
 
-https://zhuanlan.zhihu.com/p/179294441
+<https://zhuanlan.zhihu.com/p/179294441>
 
-https://blog.51cto.com/starsliao/5763175
+<https://blog.51cto.com/starsliao/5763175>
 
-https://cloud.tencent.com/developer/article/1808130
+<https://cloud.tencent.com/developer/article/1808130>

@@ -22,8 +22,10 @@ set max_connections=1000;
 ```bash
 vi /etc/my.cnf
 [mysqld]
-max_connections=1000
-systemctl restart mysqld
+show variables like '%max_connections%';
+# 显示当前数据库的最大连接数设置
+set max_connections=1000;
+# 设置数据库的最大连接数为1000
 ```
 
 **ssl连接问题**
@@ -86,6 +88,7 @@ SET sql_mode=(SELECT REPLACE(@@sql_mode, 'ONLY_FULL_GROUP_BY', ''));
 ```shell
 [mysqld]  
 sql_mode = "STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION"
+# 设置MySQL的SQL模式
 systemctl restart mysqld
 ```
 

@@ -37,7 +37,7 @@ comments:
   facebook:
     # https://developers.facebook.com/docs/plugins/comments
     appid                :  
-    num_posts            :  5
+    num_posts            :  10
     colorscheme          :  "light"
   utterances:
     theme                : # "github-light" (default), "github-dark"
